@@ -1,0 +1,123 @@
+# -*- shell-script -*- Tell emacs to pretend that this is shell-script
+MAP
+  NAME WIFI
+  UNITS METERS
+  EXTENT -8200000 4990000 -7800000 6050000
+  STATUS ON
+  SIZE 512 512
+  IMAGECOLOR 255 255 255
+  IMAGETYPE PNG
+
+  # This is for the WMS requests
+  #OUTPUTFORMAT
+  #  NAME PNG
+  #  DRIVER 'GD/PNG'
+  #  MIMETYPE 'image/png'
+  #  IMAGEMODE RGBA
+  #  EXTENSION "png"
+  #  TRANSPARENT ON
+  #END
+
+  PROJECTION
+   "init=epsg:900913"
+  END
+
+  WEB
+    IMAGEPATH "/mnt/data/projects/whidbey-wifi/server/ms_tmp/"
+    IMAGEURL "/ms_tmp/"
+    LOG "/mnt/data/projects/whidbey-wifi/server/logs/mapserver.log"
+    METADATA
+      ows_enable_request "*"
+      WMS_FEATURE_INFO_MIME_TYPE "text/html"
+      OWS_FEATURE_INFO_MIME_TYPE "text/html"
+      WMS_INCLUDE_ITEMS "text/html"
+      WMS_TITLE "Whidbey-wifi"
+      WMS_ABSTRACT "Whidbey wifi Map"
+      WMS_ACCESSCONSTRAINTS "none"
+      WMS_ONLINERESOURCE "http://whidbey-wifi.z-pulley.com/wms/wifi?"
+      WMS_SRS "EPSG:900913 EPSG:4326"
+    END
+  END
+
+  #FONTSET /data1/bpgomex/fonts/fontset.txt
+
+  LEGEND
+    STATUS ON
+    IMAGECOLOR 229 227 223
+    KEYSIZE 20 12
+    #LABEL
+    #  FONT "LucidaSansRegular"
+    #  TYPE truetype
+    #  PARTIALS false
+    #  BUFFER 1
+    #  COLOR 0 0 0
+    #  SIZE 9
+    #  OFFSET 1 -2
+    #  ANTIALIAS true
+    #  WRAP '|'
+    #END
+  END
+
+  SYMBOL
+    NAME 'circle'
+    TYPE ellipse
+    FILLED true
+    POINTS
+      1 1
+    END
+  END
+  #
+  # BEGIN LAYER DESCRIPTIONS
+  #
+  LAYER
+    NAME "WATER_METER_POINTS"
+    CONNECTIONTYPE POSTGIS
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    CONNECTION "user=aaronr password='aaronr' dbname=whidbey-wifi host=localhost"
+    DATA "the_geom from langley_meters"
+    PROJECTION
+      "init=epsg:4326"
+    END
+  
+    TYPE point
+    STATUS ON
+    DUMP TRUE
+    #HEADER "/data1/bpgomex/mapfiles/tracking/templates/spot_header.html"
+    #FOOTER "/data1/bpgomex/mapfiles/tracking/templates/spot_footer.html"
+    #TEMPLATE "/data1/bpgomex/mapfiles/tracking/templates/spot.html"
+    TOLERANCE 15
+    OPACITY 100
+    #LABELITEM "messengername"
+    CLASS
+      NAME "meters"
+      STYLE
+        SYMBOL "circle"
+        OUTLINECOLOR 255 255 255
+        COLOR 255 20 0
+	SIZE 5
+      END
+      #LABEL
+      #  FONT "LucidaSansRegular"
+      #  TYPE truetype
+      #  SIZE 7
+      #  COLOR 0 0 0
+      #  #BACKGROUNDCOLOR 225 225 225
+      #  ANTIALIAS true
+      #  PARTIALS FALSE
+      #  BUFFER 0
+      #  POSITION uc
+      #  OFFSET 0 2
+      #END
+    END
+    METADATA
+      WMS_TITLE "WATER_METER_POINTS"
+      WMS_ABSTRACT "Langley Water Meters"
+      WMS_SRS "epsg:900913"
+      GML_INCLUDE_ITEMS "all"
+      GML_EXCLUDE_ITEMS "the_geom"
+    END
+  END
+
+
+END
+
