@@ -39,7 +39,23 @@ function init(){
             }
     );
 
-    map.addLayers( [ osm, gmap, water_meters] );
+     var parcels = new OpenLayers.Layer.WMS(
+             "Parcels",
+              "http://whidbey-wifi.z-pulley.com/wms/wifi?",
+             {
+                 layers: "PARCEL_BOUNDARIES",
+                 transparent: 'true',
+                 format: 'image/png',
+             },
+             {
+                 //tileSize: new OpenLayers.Size(256,256),
+                 //ratio: 1,
+                 gutter: 10,
+                 wrapDateLine: true
+             }
+     );
+
+    map.addLayers( [ osm, gmap, parcels, water_meters] );
 
     map.addControl(new OpenLayers.Control.LayerSwitcher());
 

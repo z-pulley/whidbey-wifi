@@ -93,7 +93,7 @@ MAP
       STYLE
         SYMBOL "circle"
         OUTLINECOLOR 255 255 255
-        COLOR 255 20 0
+        COLOR 0 0 153
 	SIZE 5
       END
       #LABEL
@@ -112,6 +112,54 @@ MAP
     METADATA
       WMS_TITLE "WATER_METER_POINTS"
       WMS_ABSTRACT "Langley Water Meters"
+      WMS_SRS "epsg:900913"
+      GML_INCLUDE_ITEMS "all"
+      GML_EXCLUDE_ITEMS "the_geom"
+    END
+  END
+
+  LAYER
+    NAME "PARCEL_BOUNDARIES"
+    CONNECTIONTYPE POSTGIS
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    CONNECTION "user=aaronr password='aaronr' dbname=whidbey-wifi host=localhost"
+    DATA "the_geom from langley_parcels"
+    PROJECTION
+      "init=epsg:4326"
+    END
+  
+    TYPE polygon
+    STATUS ON
+    DUMP TRUE
+    #HEADER "/data1/bpgomex/mapfiles/tracking/templates/spot_header.html"
+    #FOOTER "/data1/bpgomex/mapfiles/tracking/templates/spot_footer.html"
+    #TEMPLATE "/data1/bpgomex/mapfiles/tracking/templates/spot.html"
+    TOLERANCE 15
+    OPACITY 50
+    #LABELITEM "messengername"
+    CLASS
+      NAME "meters"
+      STYLE
+        OUTLINECOLOR 102 102 102
+        COLOR 223 223 223
+	WIDTH 1
+      END
+      #LABEL
+      #  FONT "LucidaSansRegular"
+      #  TYPE truetype
+      #  SIZE 7
+      #  COLOR 0 0 0
+      #  #BACKGROUNDCOLOR 225 225 225
+      #  ANTIALIAS true
+      #  PARTIALS FALSE
+      #  BUFFER 0
+      #  POSITION uc
+      #  OFFSET 0 2
+      #END
+    END
+    METADATA
+      WMS_TITLE "PARCEL_BOUNDARIES"
+      WMS_ABSTRACT "Langley Parcels"
       WMS_SRS "epsg:900913"
       GML_INCLUDE_ITEMS "all"
       GML_EXCLUDE_ITEMS "the_geom"
