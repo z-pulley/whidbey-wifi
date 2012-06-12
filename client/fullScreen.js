@@ -55,13 +55,29 @@ function init(){
              }
      );
 
-    map.addLayers( [ osm, gmap, parcels, water_meters] );
+     var parks = new OpenLayers.Layer.WMS(
+             "Parks",
+              "http://whidbey-wifi.z-pulley.com/wms/wifi?",
+             {
+                 layers: "PARKS",
+                 transparent: 'true',
+                 format: 'image/png',
+             },
+             {
+                 //tileSize: new OpenLayers.Size(256,256),
+                 //ratio: 1,
+                 gutter: 10,
+                 wrapDateLine: true
+             }
+     );
+
+    map.addLayers( [ osm, gmap, parcels, parks, water_meters] );
 
     map.addControl(new OpenLayers.Control.LayerSwitcher());
 
     // Coordinate display at bottom of map
     map.addControl(new OpenLayers.Control.MousePosition());
-    var point = new OpenLayers.LonLat(-122.40 , 48.03); 
+    var point = new OpenLayers.LonLat(-122.4066 , 48.033); 
     // Need to convert zoom point to mercator too
     point.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
     map.setCenter(point, 14); 
